@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breakout Game - Go/WASM</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-align: center;
+        }
+        
+        #gameContainer {
+            border: 2px solid #444;
+            border-radius: 8px;
+            background: #000;
+            margin-bottom: 20px;
+        }
+        
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #2a2a2a;
+            border-radius: 8px;
+            max-width: 600px;
+        }
+        
+        .controls h2 {
+            margin-top: 0;
+            color: #ffffff;
+        }
+        
+        .controls p {
+            margin: 10px 0;
+            color: #cccccc;
+        }
+        
+        .key {
+            background: #444;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #cccccc;
+        }
+        
+        .footer {
+            margin-top: auto;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .footer a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧱 Breakout Game</h1>
+    
+    <div class="controls">
+        <h2>🎮 How to Play</h2>
+        <p><span class="key">SPACE</span> - Start Game / Restart</p>
+        <p><span class="key">←</span> <span class="key">→</span> - Move Paddle</p>
+        <p>Break all blocks to win! Don't let the ball fall!</p>
+    </div>
+    
+    <div id="gameContainer">
+        <div class="loading">Loading game...</div>
+    </div>
+    
+    <div class="footer">
+        <p>Built with Go + Ebiten + WebAssembly</p>
+        <p><a href="https://github.com/maniax-jp/go-breakout-game" target="_blank">View Source on GitHub</a></p>
+    </div>
+    
+    <script src="wasm_exec.js"></script>
+    <script>
+        const go = new Go();
+        
+        // Loading indicator
+        const loadingDiv = document.querySelector('.loading');
+        
+        WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then((result) => {
+            // Remove loading indicator
+            loadingDiv.style.display = 'none';
+            
+            // Run the Go program
+            go.run(result.instance);
+        }).catch((err) => {
+            console.error('Failed to load WASM:', err);
+            loadingDiv.innerHTML = '❌ Failed to load game. Please refresh the page.';
+            loadingDiv.style.color = '#ff6b6b';
+        });
+    </script>
+</body>
+</html>

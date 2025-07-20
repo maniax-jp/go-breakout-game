@@ -167,17 +167,17 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	screen.Fill(color.RGBA{0, 0, 0, 255})
 
 	if !g.gameStarted {
-		ebitenutil.DebugPrint(screen, "ブロック崩し\n\nスペースキーでゲーム開始\n左右矢印キーでパドル操作")
+		ebitenutil.DebugPrint(screen, "BREAKOUT GAME\n\nPress SPACE to start\nUse Arrow Keys to move paddle")
 		return
 	}
 
 	if g.gameOver {
-		ebitenutil.DebugPrint(screen, "ゲームオーバー\n\nスペースキーでリスタート")
+		ebitenutil.DebugPrint(screen, "GAME OVER\n\nPress SPACE to restart")
 		return
 	}
 
 	if g.gameWin {
-		ebitenutil.DebugPrint(screen, "ゲームクリア！\n\nスペースキーでリスタート")
+		ebitenutil.DebugPrint(screen, "YOU WIN!\n\nPress SPACE to restart")
 		return
 	}
 
@@ -201,7 +201,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 
 func main() {
 	ebiten.SetWindowSize(screenWidth, screenHeight)
-	ebiten.SetWindowTitle("ブロック崩し")
+	ebiten.SetWindowTitle("Breakout Game")
 
 	game := NewGame()
 
