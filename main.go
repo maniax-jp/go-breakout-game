@@ -3,7 +3,6 @@ package main
 import (
 	"image/color"
 	"log"
-	"math"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
@@ -11,15 +10,18 @@ import (
 )
 
 const (
-	screenWidth  = 600
-	screenHeight = 1000
-	paddleWidth  = 100
-	paddleHeight = 20
-	ballSize     = 10
-	blockWidth   = 60
-	blockHeight  = 20
-	blockRows    = 8
-	blockCols    = 9
+	screenWidth    = 600
+	screenHeight   = 1000
+	paddleWidth    = 100
+	paddleHeight   = 20
+	ballSize       = 10
+	blockWidth     = 60
+	blockHeight    = 20
+	blockRows      = 8
+	blockCols      = 9
+	gravity        = 0.15 // 重力加速度（ピクセル/フレーム²）
+	initialSpeedY  = -16  // 最上段ブロックにギリギリ届く最小初速度（物理計算: √(2×0.15×830)≈15.78）
+	initialSpeedX  = 3    // 横方向の初速度
 )
 
 type Paddle struct {
@@ -59,8 +61,8 @@ func NewGame() *Game {
 		ball: Ball{
 			X:    screenWidth / 2,
 			Y:    screenHeight - 70,
-			VX:   3,
-			VY:   -3,
+			VX:   initialSpeedX,
+			VY:   initialSpeedY,
 			Size: ballSize,
 		},
 		blocks: make([]Block, blockRows*blockCols),
@@ -108,7 +110,8 @@ func (g *Game) Update() error {
 		g.paddle.X += 5
 	}
 
-	// ボールの移動
+	// ボールの移動（重力加速度を適用）
+	g.ball.VY += gravity  // 重力加速度を速度に加算
 	g.ball.X += g.ball.VX
 	g.ball.Y += g.ball.VY
 
@@ -124,7 +127,7 @@ func (g *Game) Update() error {
 	if g.ball.Y+g.ball.Size >= g.paddle.Y &&
 		g.ball.X+g.ball.Size >= g.paddle.X &&
 		g.ball.X <= g.paddle.X+g.paddle.Width {
-		g.ball.VY = -math.Abs(g.ball.VY)
+		g.ball.VY = initialSpeedY  // 重力を考慮した初速度を設定
 		// パドルの位置によってボールの方向を変える
 		hitPos := (g.ball.X + g.ball.Size/2 - g.paddle.X) / g.paddle.Width
 		g.ball.VX = (hitPos - 0.5) * 6
