@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(ls:*)",
+      "Bash(cmd /c:*)",
+      "Bash(find:*)",
+      "Bash(go mod:*)",
+      "Bash(go build:*)",
+      "Bash(./breakout.exe)",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}

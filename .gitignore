@@ -1,0 +1,25 @@
+# バイナリファイル
+*.exe
+*.out
+
+# Goのビルド成果物
+/bin/
+/dist/
+
+# エディタとIDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS固有のファイル
+.DS_Store
+Thumbs.db
+
+# ログファイル
+*.log
+
+# 一時ファイル
+*.tmp
+*.temp
