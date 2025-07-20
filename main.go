@@ -166,33 +166,39 @@ func (g *Game) Update() error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	screen.Fill(color.RGBA{0, 0, 0, 255})
+	screen.Fill(color.RGBA{255, 255, 255, 255})
 
 	if !g.gameStarted {
+		// テキスト背景（左上）
+		ebitenutil.DrawRect(screen, 0, 0, 400, 80, color.RGBA{0, 0, 0, 180})
 		ebitenutil.DebugPrint(screen, "BREAKOUT GAME\n\nPress SPACE to start\nUse Arrow Keys to move paddle")
 		return
 	}
 
 	if g.gameOver {
+		// テキスト背景（左上）
+		ebitenutil.DrawRect(screen, 0, 0, 300, 50, color.RGBA{0, 0, 0, 180})
 		ebitenutil.DebugPrint(screen, "GAME OVER\n\nPress SPACE to restart")
 		return
 	}
 
 	if g.gameWin {
+		// テキスト背景（左上）
+		ebitenutil.DrawRect(screen, 0, 0, 300, 50, color.RGBA{0, 0, 0, 180})
 		ebitenutil.DebugPrint(screen, "YOU WIN!\n\nPress SPACE to restart")
 		return
 	}
 
 	// パドルの描画
-	ebitenutil.DrawRect(screen, g.paddle.X, g.paddle.Y, g.paddle.Width, g.paddle.Height, color.RGBA{255, 255, 255, 255})
+	ebitenutil.DrawRect(screen, g.paddle.X, g.paddle.Y, g.paddle.Width, g.paddle.Height, color.RGBA{0, 0, 0, 255})
 
 	// ボールの描画
-	ebitenutil.DrawRect(screen, g.ball.X, g.ball.Y, g.ball.Size, g.ball.Size, color.RGBA{255, 255, 0, 255})
+	ebitenutil.DrawRect(screen, g.ball.X, g.ball.Y, g.ball.Size, g.ball.Size, color.RGBA{255, 0, 0, 255})
 
 	// ブロックの描画
 	for _, block := range g.blocks {
 		if block.Active {
-			ebitenutil.DrawRect(screen, block.X, block.Y, block.Width, block.Height, color.RGBA{255, 100, 100, 255})
+			ebitenutil.DrawRect(screen, block.X, block.Y, block.Width, block.Height, color.RGBA{0, 100, 255, 255})
 		}
 	}
 }
