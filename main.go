@@ -11,15 +11,15 @@ import (
 )
 
 const (
-	screenWidth  = 800
-	screenHeight = 600
+	screenWidth  = 600
+	screenHeight = 1000
 	paddleWidth  = 100
 	paddleHeight = 20
 	ballSize     = 10
 	blockWidth   = 60
 	blockHeight  = 20
-	blockRows    = 5
-	blockCols    = 12
+	blockRows    = 8
+	blockCols    = 9
 )
 
 type Paddle struct {
@@ -67,12 +67,14 @@ func NewGame() *Game {
 	}
 
 	// ブロックの初期化
+	blockAreaWidth := float64(blockCols)*(blockWidth+5) - 5
+	startX := (screenWidth - blockAreaWidth) / 2
 	for row := 0; row < blockRows; row++ {
 		for col := 0; col < blockCols; col++ {
 			index := row*blockCols + col
 			g.blocks[index] = Block{
-				X:      float64(col)*(blockWidth+5) + 50,
-				Y:      float64(row)*(blockHeight+5) + 50,
+				X:      startX + float64(col)*(blockWidth+5),
+				Y:      100 + float64(row)*(blockHeight+5),
 				Width:  blockWidth,
 				Height: blockHeight,
 				Active: true,
